@@ -4,11 +4,13 @@ import java.util.List;
 public class Grid2d implements Grid {
     boolean[][] grid;
     double sideLength;
-    public Grid2d(int cantCellsX, int cantCellsY, double sideLength, List<Cell> cells) {
+    Rule2d rule;
+    public Grid2d(int cantCellsX, int cantCellsY, double sideLength, List<Cell> cells, Rule2d rule) {
         this.sideLength = sideLength;
+        this.rule=rule;
         grid = new boolean[cantCellsX][cantCellsY];
         for (Cell cell : cells) {
-            grid[cell.getX()][cell.getY()] = true;
+            grid[cell.getRow()][cell.getCol()] = true;
         }
 
     }
@@ -40,8 +42,28 @@ public class Grid2d implements Grid {
 
     }
 
+
+
     @Override
     public void move() {
+        List<Cell> deadToAlive = new ArrayList<>();
+        List<Cell> aliveToDead = new ArrayList<>();
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[i].length; j++) {
+                Cell cell = new Cell(i,j, grid[i][j]);
+                Boolean nextState = rule.checkLife(cell,this);
+                if(nextState == null)
+                    continue;
+                else if(nextState)
+                    deadToAlive.add(cell);
+                else
+                    aliveToDead.add(cell);
+            }
+        }
+        for (Cell cell:deadToAlive)
+            grid[cell.getRow()][cell.getCol()] = true;
+        for (Cell cell:aliveToDead)
+            grid[cell.getRow()][cell.getCol()] = false;
 
     }
 
@@ -51,8 +73,12 @@ public class Grid2d implements Grid {
         for(int i = 0; i < grid.length; i++)
             for(int j = 0; j < grid[i].length; j++)
                 if (grid[i][j]) {
-                    cellsAlive.add(new Cell(i, j));
+                    cellsAlive.add(new Cell(i, j, grid[i][j]));
                 }
         return cellsAlive;
+    }
+
+    public boolean[][] getGridMatrix(){
+        return grid;
     }
 }

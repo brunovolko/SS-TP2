@@ -4,12 +4,14 @@ import java.util.List;
 public class Grid3d implements Grid {
     boolean[][][] grid;
     double sideLength;
-    public Grid3d(int cantCellsX, int cantCellsY, int cantCellsZ, double sideLength, List<Cell> cells) {
+    Rule3d rule;
+    public Grid3d(int cantCellsX, int cantCellsY, int cantCellsZ, double sideLength, List<Cell> cells, Rule3d rule) {
         this.sideLength = sideLength;
+        this.rule = rule;
         grid = new boolean[cantCellsX][cantCellsY][cantCellsZ];
         for (Cell cell : cells) {
-            grid[cell.getX()][cell.getY()][cell.getZ()] = true;
-            System.out.println(cell.getX() + " " + cell.getY() + " " + cell.getZ());
+            grid[cell.getRow()][cell.getCol()][cell.getDeep()] = true;
+            System.out.println(cell.getRow() + " " + cell.getCol() + " " + cell.getDeep());
         }
     }
 
@@ -78,7 +80,7 @@ public class Grid3d implements Grid {
             for(int j = 0; j < grid[i].length; j++)
                 for(int k = 0; k < grid[i][j].length; k++)
                     if (grid[i][j][k]){
-                        cellsAlive.add(new Cell(i, j, k));
+                        cellsAlive.add(new Cell(i, j, k, grid[i][j][k]));
                     }
         return cellsAlive;
     }

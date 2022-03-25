@@ -62,9 +62,9 @@ public class Config {
             row = dynamicReader.nextLine();
             parts = row.split(" ");
             if(parts.length == 2) {
-                cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])));
+                cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), true));
             } else if(parts.length == 3) {
-                cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+                cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), true));
             } else {
                 throw new Exception("Wrong coordinates");
             }

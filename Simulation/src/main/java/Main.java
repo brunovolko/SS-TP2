@@ -14,21 +14,21 @@ public class Main {
         }
         Grid grid;
         if(config.is3d())
-            grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells());
+            grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), null);
         else
-            grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells());
+            grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells(), Rules.lifeGame2d());
 
 
         File dynamicOutputFile = new File("dynamic_output.txt");
         try(PrintWriter pw = new PrintWriter(dynamicOutputFile)){
             int t = 0;
             saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
-            /*t++;
+            t++;
             while(grid.canMove()) {
                 grid.move();
                 saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
                 t++;
-            }*/
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -40,9 +40,9 @@ public class Main {
         pw.println("t"+t);
         for (Cell cell : cellsAlive) {
             if(is3d)
-                pw.println(cell.getX() + " " + cell.getY() + " " + cell.getZ());
+                pw.println(cell.getRow() + " " + cell.getCol() + " " + cell.getDeep());
             else
-                pw.println(cell.getX() + " " + cell.getY());
+                pw.println(cell.getRow() + " " + cell.getCol());
         }
     }
 }
