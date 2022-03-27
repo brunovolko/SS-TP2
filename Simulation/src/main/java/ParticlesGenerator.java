@@ -23,30 +23,34 @@ public class ParticlesGenerator {
 
         int qtyOfParticlesToGenerate = (int) Math.floor(n * n * percentage);
 
-        int newLimit = (int) Math.floor(n / 2.5);
+        int newLimit = (int)Math.ceil(Math.sqrt(qtyOfParticlesToGenerate));
         int min = (n- newLimit)/2;
         int max = min + newLimit;
         Random random = new Random(System.currentTimeMillis());
-        List<Pair<Integer,Integer>> list = new ArrayList<>();
-        for(int i=0;i<qtyOfParticlesToGenerate;i++){
+        Set<Pair<Integer,Integer>> set = new HashSet<>();
+        for(int i=0;i<qtyOfParticlesToGenerate;){
 
-            Pair<Integer,Integer> pair = new Pair(random.ints(min, max)
+
+            Pair<Integer,Integer> pair = new Pair<>(random.ints(min, max)
                     .findFirst()
                     .getAsInt(),
                     random.ints(min, max)
                             .findFirst()
                             .getAsInt());
-            list.add(pair);
 
+            if(set.add(pair))
+                i++;
         }
 
 
 
-        File file = new File("particles.txt");
+        File file = new File("dynamic_input.txt");
         try(PrintWriter pw = new PrintWriter(file)){
-           for(int i = 0; i <list.size();i++){
-               pw.print(list.get(i).getKey() +" " + list.get(i).getValue());
-               if(i<list.size()-1)
+            pw.println("t0");
+           int i=0;
+           for(Pair<Integer,Integer> pair : set){
+               pw.print(pair.getKey() + " " + pair.getValue());
+               if(i++ < set.size() -1 )
                    pw.print('\n');
            }
 
