@@ -4,3 +4,7 @@ Simulation/.idea/
 Simulation/target/
 
 Visualization/figures/
+
+.idea/
+
+*.iml
