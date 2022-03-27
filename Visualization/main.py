@@ -49,25 +49,62 @@ images = []
 
 counter = 0
 for scenario in scenarios:
-    data = np.zeros((cells_height, cells_width))
+    if is3d:
+        #data = np.zeros((cells_width, cells_height, cells_depth))
 
-    for cell in scenario:
-        coordinates = cell.split(' ')
-        data[int(coordinates[0])][int(coordinates[1])] = float(1)
+        
+        
+        x, y, z = np.indices((cells_width, cells_height, cells_depth))
 
-    cmap = colors.ListedColormap(['white', 'gray'])
+        cubes = list()
+        voxelarray = None
+        first_time = True
+        
+        
 
-    fig, ax = plt.subplots()
-    ax.imshow(data, cmap=cmap)
+        for cell in scenario:
+            coordinates = [int(x) for x in cell.split(' ')]
+            cube = (x >= coordinates[0]) & (x <= coordinates[0]+1) & (y >= coordinates[1]) & (y <= coordinates[1]+1) & (z >= coordinates[2]) & (z <= coordinates[2]+1)
+            cubes.append(cube)
+            if first_time:
+                voxelarray = cube
+                first_time = False
+            else:
+                voxelarray = voxelarray | cube
+            
 
-    # draw gridlines
-    ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=1)
-    ax.set_xticks(np.arange(-.5, cells_width*side_length, side_length))
-    ax.set_yticks(np.arange(-.5, cells_height*side_length, side_length))
+        colors = np.empty(voxelarray.shape, dtype=object)
+        for cube in cubes:
+            colors[cube] = 'gray'
+
+        
+
+        ax = plt.figure().add_subplot(projection='3d')
+        ax.voxels(voxelarray, facecolors=colors, edgecolor='k')
+
+    else:
+        data = np.zeros((cells_height, cells_width))
+
+        for cell in scenario:
+            coordinates = cell.split(' ')
+            data[int(coordinates[0])][int(coordinates[1])] = float(1)
+
+        cmap = colors.ListedColormap(['white', 'gray'])
+
+        fig, ax = plt.subplots()
+        ax.imshow(data, cmap=cmap)
+
+        # draw gridlines
+        ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=1)
+        ax.set_xticks(np.arange(-.5, cells_width*side_length, side_length))
+        ax.set_yticks(np.arange(-.5, cells_height*side_length, side_length))
+        
     plt.savefig("figures/"+str(counter)+".png")
     images.append(imageio.imread("figures/"+str(counter)+".png"))
     plt.close()
     counter += 1
+
+    
 
 imageio.mimsave('animation.gif', images)
 
