@@ -1,3 +1,4 @@
+from dis import dis
 from matplotlib import pyplot as plt
 import numpy as np
 from matplotlib import colors
@@ -49,16 +50,16 @@ images = []
 
 counter = 0
 for scenario in scenarios:
-    if is3d:
-        #data = np.zeros((cells_width, cells_height, cells_depth))
-
-        
+    if is3d:        
         
         x, y, z = np.indices((cells_width, cells_height, cells_depth))
 
         cubes = list()
+        distances_to_center = list()
         voxelarray = None
         first_time = True
+
+        max_distance_to_center = np.sqrt((cells_width/2)**2 + (cells_height/2)**2 + (cells_depth/2)**2)
         
         
 
@@ -66,21 +67,26 @@ for scenario in scenarios:
             coordinates = [int(x) for x in cell.split(' ')]
             cube = (x >= coordinates[0]) & (x <= coordinates[0]+1) & (y >= coordinates[1]) & (y <= coordinates[1]+1) & (z >= coordinates[2]) & (z <= coordinates[2]+1)
             cubes.append(cube)
+            distances_to_center.append(np.sqrt(np.sum((coordinates[0] - cells_width/2)**2 + (coordinates[1] - cells_height/2)**2 + (coordinates[2] - cells_depth/2)**2)))
             if first_time:
                 voxelarray = cube
                 first_time = False
             else:
                 voxelarray = voxelarray | cube
+
+        
             
 
-        colors = np.empty(voxelarray.shape, dtype=object)
+        colors = np.empty(voxelarray.shape, dtype=float)
+        idx = 0
         for cube in cubes:
-            colors[cube] = 'gray'
+            colors[cube] = distances_to_center[idx] / max_distance_to_center
+            idx += 1
 
         
 
         ax = plt.figure().add_subplot(projection='3d')
-        ax.voxels(voxelarray, facecolors=colors, edgecolor='k')
+        ax.voxels(voxelarray, facecolors=plt.cm.viridis(colors))
 
     else:
         data = np.zeros((cells_height, cells_width))
