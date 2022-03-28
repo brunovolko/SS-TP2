@@ -78,6 +78,22 @@ public class Grid2d implements Grid {
         return cellsAlive;
     }
 
+    @Override
+    public double getMaxDistFromCenter() {
+        List<Cell> alivecells=getCellsAlive();
+        double centX=(double)grid.length/2;
+        double centY=(double)grid[0].length/2;
+        double MaxDist=0;
+        for (Cell cell:alivecells) {
+            double cellXDist=Math.abs(cell.getRow()-centX);
+            double cellYDist=Math.abs(cell.getCol()-centY);
+            double aux=Math.sqrt(cellXDist*cellXDist+cellYDist*cellYDist);
+            if (aux>MaxDist)
+                MaxDist=aux;
+        }
+        return MaxDist;
+    }
+
     public boolean[][] getGridMatrix(){
         return grid;
     }
