@@ -28,8 +28,8 @@ public class Rules {
             for(int row = cellToCheck.getRow()-1; row <= cellToCheck.getRow()+1 && row > 0 && row < grid.length-1; row++)
                 for(int col = cellToCheck.getCol()-1; col <= cellToCheck.getCol()+1 && col > 0 && col < grid[0].length-1; col++)
                     for(int dep = cellToCheck.getDeep()-1; dep <= cellToCheck.getDeep()+1 && dep > 0 && dep < grid[0][0].length-1; dep++)
-                    if(!(row == cellToCheck.getRow() && col == cellToCheck.getCol()&& dep == cellToCheck.getDeep()) && grid[row][col][dep])
-                        aliveNeighbours++;
+                        if(!(row == cellToCheck.getRow() && col == cellToCheck.getCol()&& dep == cellToCheck.getDeep()) && grid[row][col][dep])
+                            aliveNeighbours++;
 
 
             if(cellToCheck.isAlive()) {
