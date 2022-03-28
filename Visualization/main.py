@@ -91,11 +91,16 @@ for scenario in scenarios:
     else:
         data = np.zeros((cells_height, cells_width))
 
-        for cell in scenario:
-            coordinates = cell.split(' ')
-            data[int(coordinates[0])][int(coordinates[1])] = float(1)
+        max_distance_to_center = np.sqrt((cells_width/2)**2 + (cells_height/2)**2)
 
-        cmap = colors.ListedColormap(['white', 'gray'])
+        for cell in scenario:
+            coordinates = [int(x) for x in cell.split(' ')]
+            
+            data[int(coordinates[0])][int(coordinates[1])] = np.sqrt(np.sum((coordinates[0] - cells_width/2)**2 + (coordinates[1] - cells_height/2)**2)) / max_distance_to_center#float(1)
+
+
+        
+        cmap = colors.LinearSegmentedColormap.from_list('my_colormap', ['white', 'yellow', 'red'], 256)
 
         fig, ax = plt.subplots()
         ax.imshow(data, cmap=cmap)
