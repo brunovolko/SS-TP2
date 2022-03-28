@@ -112,6 +112,27 @@ public class Grid3d implements Grid {
     @Override
     public void move() {
 
+        List<Cell> deadToAlive = new ArrayList<>();
+        List<Cell> aliveToDead = new ArrayList<>();
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[i].length; j++) {
+                for (int k = 0; k < grid[i][j].length; k++) {
+                    Cell cell = new Cell(i,j, grid[i][j][k]);
+                    Boolean nextState = rule.checkLife(cell,this);
+                    if(nextState == null)
+                        continue;
+                    else if(nextState)
+                        deadToAlive.add(cell);
+                    else
+                        aliveToDead.add(cell);
+                }
+            }
+        }
+        for (Cell cell:deadToAlive)
+            grid[cell.getRow()][cell.getCol()][cell.getDeep()] = true;
+        for (Cell cell:aliveToDead)
+            grid[cell.getRow()][cell.getCol()][cell.getDeep()] = false;
+
     }
 
     @Override
@@ -124,5 +145,9 @@ public class Grid3d implements Grid {
                         cellsAlive.add(new Cell(i, j, k, grid[i][j][k]));
                     }
         return cellsAlive;
+    }
+
+    public boolean[][][] getGridMatrix(){
+        return grid;
     }
 }
