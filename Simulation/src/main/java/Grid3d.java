@@ -10,8 +10,8 @@ public class Grid3d implements Grid {
         this.rule = rule;
         grid = new boolean[cantCellsX][cantCellsY][cantCellsZ];
         for (Cell cell : cells) {
-            grid[cell.getRow()][cell.getCol()][cell.getDeep()] = true;
-            System.out.println(cell.getRow() + " " + cell.getCol() + " " + cell.getDeep());
+            grid[cell.getRow()][cell.getCol()][cell.getDepth()] = true;
+            System.out.println(cell.getRow() + " " + cell.getCol() + " " + cell.getDepth());
         }
     }
 
@@ -117,7 +117,7 @@ public class Grid3d implements Grid {
         for(int i = 0; i < grid.length; i++) {
             for(int j = 0; j < grid[i].length; j++) {
                 for (int k = 0; k < grid[i][j].length; k++) {
-                    Cell cell = new Cell(i,j, grid[i][j][k]);
+                    Cell cell = new Cell(i,j,k, grid[i][j][k]);
                     Boolean nextState = rule.checkLife(cell,this);
                     if(nextState == null)
                         continue;
@@ -129,9 +129,9 @@ public class Grid3d implements Grid {
             }
         }
         for (Cell cell:deadToAlive)
-            grid[cell.getRow()][cell.getCol()][cell.getDeep()] = true;
+            grid[cell.getRow()][cell.getCol()][cell.getDepth()] = true;
         for (Cell cell:aliveToDead)
-            grid[cell.getRow()][cell.getCol()][cell.getDeep()] = false;
+            grid[cell.getRow()][cell.getCol()][cell.getDepth()] = false;
 
     }
 
@@ -157,7 +157,7 @@ public class Grid3d implements Grid {
         for (Cell cell:alivecells) {
             double cellXDist=Math.abs(cell.getRow()-centX);
             double cellYDist=Math.abs(cell.getCol()-centY);
-            double cellZDist=Math.abs(cell.getDeep()-centZ);
+            double cellZDist=Math.abs(cell.getDepth()-centZ);
             double aux=Math.sqrt(cellXDist*cellXDist+cellYDist*cellYDist+cellZDist*cellZDist);
             if (aux>MaxDist)
                 MaxDist=aux;

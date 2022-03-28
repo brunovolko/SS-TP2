@@ -19,8 +19,13 @@ public class Config {
         File dynamicInputFile = new File(dynamicInputFilename);
         Scanner staticReader = new Scanner(staticInputFile);
         Scanner dynamicReader = new Scanner(dynamicInputFile);
-        if(staticReader.hasNextLine())
-            is3d = Boolean.parseBoolean(staticReader.nextLine());
+        int aux;
+        if(staticReader.hasNextLine()) {
+            aux = Integer.parseInt(staticReader.nextLine());
+            is3d= aux != 0;
+        }
+
+
         else
             throw new Exception("is3d not found");
 

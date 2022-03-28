@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class Main {
+    private static final long MAX_DURATION =  (300);
     public static void main(String[] args) {
         Config config;
         try {
@@ -14,11 +15,12 @@ public class Main {
         }
         Grid grid;
         if(config.is3d())
-            grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), null);
+            grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), Rules.lifeGame3d());
         else
             grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells(), Rules.lifeGame2d());
 
 
+        long start = System.currentTimeMillis();
         File dynamicOutputFile = new File("dynamic_output.txt");
         try(PrintWriter pw = new PrintWriter(dynamicOutputFile)){
             int t = 0;
@@ -28,6 +30,8 @@ public class Main {
                 grid.move();
                 saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
                 t++;
+                if(System.currentTimeMillis() - start > MAX_DURATION)
+                    break;
             }
 
         } catch (FileNotFoundException e) {
@@ -40,7 +44,7 @@ public class Main {
         pw.println("t"+t);
         for (Cell cell : cellsAlive) {
             if(is3d)
-                pw.println(cell.getRow() + " " + cell.getCol() + " " + cell.getDeep());
+                pw.println(cell.getRow() + " " + cell.getCol() + " " + cell.getDepth());
             else
                 pw.println(cell.getRow() + " " + cell.getCol());
         }
