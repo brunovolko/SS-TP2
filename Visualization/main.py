@@ -67,7 +67,7 @@ for scenario in scenarios:
             coordinates = [int(x) for x in cell.split(' ')]
             cube = (x >= coordinates[0]) & (x <= coordinates[0]+1) & (y >= coordinates[1]) & (y <= coordinates[1]+1) & (z >= coordinates[2]) & (z <= coordinates[2]+1)
             cubes.append(cube)
-            distances_to_center.append(np.sqrt(np.sum((coordinates[0] - cells_width/2)**2 + (coordinates[1] - cells_height/2)**2 + (coordinates[2] - cells_depth/2)**2)))
+            distances_to_center.append(np.sqrt(np.sum((coordinates[0] - cells_height/2)**2 + (coordinates[1] - cells_width/2)**2 + (coordinates[2] - cells_depth/2)**2)))
             if first_time:
                 voxelarray = cube
                 first_time = False
@@ -95,18 +95,18 @@ for scenario in scenarios:
 
         for cell in scenario:
             coordinates = [int(x) for x in cell.split(' ')]
+            distance_to_center = np.sqrt((coordinates[0] - cells_height/2)**2 + (coordinates[1] - cells_width/2)**2) / max_distance_to_center
             
-            data[int(coordinates[0])][int(coordinates[1])] = np.sqrt(np.sum((coordinates[0] - cells_width/2)**2 + (coordinates[1] - cells_height/2)**2)) / max_distance_to_center#float(1)
-
+            data[coordinates[0]][coordinates[1]] = distance_to_center
 
         
-        cmap = colors.LinearSegmentedColormap.from_list('my_colormap', ['white', 'yellow', 'red'], 256)
+        cmap = colors.LinearSegmentedColormap.from_list('my_colormap', [(0, '#ffffff'),(0.0000000001, '#ff0000'), (0.6, '#ff9900'), (1, '#dec41b')])
 
         fig, ax = plt.subplots()
         ax.imshow(data, cmap=cmap)
 
         # draw gridlines
-        ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=1)
+        ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=0.5)
         ax.set_xticks(np.arange(-.5, cells_width*side_length, side_length))
         ax.set_yticks(np.arange(-.5, cells_height*side_length, side_length))
         
