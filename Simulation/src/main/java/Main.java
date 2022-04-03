@@ -7,15 +7,10 @@ import java.util.List;
 import static java.lang.System.exit;
 
 public class Main {
-    private static final int QTY_OF_SIMULATIONS = 4;
     private static final long MAX_DURATION =  (300);
     public static void main(String[] args) throws Exception {
 
 
-        File f = new File("results");
-        System.out.println(f.mkdir());
-        for(File file: f.listFiles())
-            file.delete();
         Config config;
         try {
             config = new Config("static_input.txt", "dynamic_input.txt",0.3);
@@ -26,41 +21,33 @@ public class Main {
         Grid grid;
 
 
-        int i = 0;
-        List<Integer> accumAliveNodes = new ArrayList<>();
-        List<Double> accumMaxDistances = new ArrayList<>();
-        //TODO en realidad creo q no hay q crear n archivos,
-        // nomas calclular promedio de vivos y el radio para cada t
-        while(i<QTY_OF_SIMULATIONS) {
-            long start = System.currentTimeMillis();
-            if(config.is3d())
-                grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), Rules.lifeGame3d());
-            else
-                grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells(), Rules.lifeGame2d());
+        long start = System.currentTimeMillis();
+        if(config.is3d())
+            grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), Rules.lifeGame3d());
+        else
+            grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells(), Rules.lifeGame2d());
 
 
-            File dynamicOutputFile = new File("results/dynamic_output" + i + ".txt");
-            try (PrintWriter pw = new PrintWriter(dynamicOutputFile)) {
-                int t = 0;
+        File dynamicOutputFile = new File("dynamic_output" + ".txt");
+        try (PrintWriter pw = new PrintWriter(dynamicOutputFile)) {
+            int t = 0;
 
+            saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
+
+            t++;
+            while (grid.canMove()) {
+                grid.move();
                 saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
-
                 t++;
-                while (grid.canMove()) {
-                    grid.move();
-                    saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
-                    t++;
-                    if (System.currentTimeMillis() - start > MAX_DURATION)
-                        break;
-                }
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                break;
+                if (System.currentTimeMillis() - start > MAX_DURATION)
+                    break;
             }
-            config.shuffleParticles(0.3);
-            i++;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+        config.shuffleParticles();
+
 
     }
 

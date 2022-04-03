@@ -12,7 +12,7 @@ public class Config {
     private int H; // H es largo del eje Y
     private int D; // D es la profundidad del eje Z (De existir)
     private double L; //Lado de cada cuadradito/cubito
-
+    private double p;
     List<Cell> cells = new ArrayList<>();
 
 
@@ -56,8 +56,8 @@ public class Config {
                 throw new Exception("L not found");
             }
         }
-
-      shuffleParticles(p);
+        this.p=p;
+        shuffleParticles();
 
 
 
@@ -92,7 +92,7 @@ public class Config {
         return cells;
     }
 
-    public void shuffleParticles(double p) throws Exception {
+    public void shuffleParticles() throws Exception {
 
         String particles = ParticlesGenerator.generate(is3d,W,p);
         String header = particles.substring(0,particles.indexOf('\n')+1);
