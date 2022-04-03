@@ -8,7 +8,9 @@ import java.util.*;
 import static java.lang.System.exit;
 
 public class ParticlesGenerator {
-    public static void main(String[] args) {
+    public static String generate(boolean is3d,int n, double p) {
+
+        /*
         int n= 0;
         boolean is3d=true;
 
@@ -25,7 +27,9 @@ public class ParticlesGenerator {
         }
 
 
-        double percentage = 0.3;
+         */
+
+        double percentage = p;
 
 
         int newLimit = (int) Math.floor(n / 2.0);
@@ -66,7 +70,20 @@ public class ParticlesGenerator {
             set.add(toAdd);
         }
 
-        File file = new File("dynamic_input.txt");
+        //File file = new File("dynamic_input.txt");
+        StringBuilder stringBuilder = new StringBuilder("t0\n");
+        int aux=0;
+        for(Cell cell : set){
+            if(is3d)
+                stringBuilder.append(cell.getRow()).append(" ").append(cell.getCol()).append(" ").append(cell.getDepth());
+            else
+                stringBuilder.append(cell.getRow()).append(" ").append(cell.getCol());
+            if(aux++ < set.size() -1 )
+                stringBuilder.append('\n');
+        }
+
+        return stringBuilder.toString();
+        /*
         try(PrintWriter pw = new PrintWriter(file)){
             pw.println("t0");
            int aux=0;
@@ -83,6 +100,8 @@ public class ParticlesGenerator {
             e.printStackTrace();
         }
 
+
+         */
 
     }
 }

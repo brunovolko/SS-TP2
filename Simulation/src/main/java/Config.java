@@ -1,8 +1,10 @@
+
 import java.io.File;
 import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Scanner;
+import org.apache.commons.lang3.StringUtils;
 
 public class Config {
     private boolean is3d;
@@ -14,7 +16,7 @@ public class Config {
     List<Cell> cells = new ArrayList<>();
 
 
-    public Config (String staticInputFilename, String dynamicInputFilename) throws Exception {
+    public Config (String staticInputFilename, String dynamicInputFilename,double p) throws Exception {
         File staticInputFile = new File(staticInputFilename);
         File dynamicInputFile = new File(dynamicInputFilename);
         Scanner staticReader = new Scanner(staticInputFile);
@@ -55,25 +57,7 @@ public class Config {
             }
         }
 
-        if(dynamicReader.hasNextLine()) {
-            dynamicReader.nextLine(); // t0
-        } else {
-            throw new Exception("t0 not found");
-        }
-
-        String row;
-        String[] parts;
-        while(dynamicReader.hasNextLine()) {
-            row = dynamicReader.nextLine();
-            parts = row.split(" ");
-            if(parts.length == 2) {
-                cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), true));
-            } else if(parts.length == 3) {
-                cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), true));
-            } else {
-                throw new Exception("Wrong coordinates");
-            }
-        }
+      shuffleParticles(p);
 
 
 
@@ -106,5 +90,35 @@ public class Config {
 
     public List<Cell> getCells() {
         return cells;
+    }
+
+    public void shuffleParticles(double p) throws Exception {
+
+        String particles = ParticlesGenerator.generate(is3d,W,p);
+        String header = particles.substring(0,particles.indexOf('\n')+1);
+        if(!header.equals("t0\n"))
+            throw new Exception("t0 not found");
+
+
+        String row;
+        int rowCount = 1;
+        String[] parts;
+        int i =header.length();
+        while(i<particles.length()) {
+            int aux = StringUtils.ordinalIndexOf(particles, "\n",rowCount+1 );
+            if(aux == -1)
+                aux = particles.length();
+            row = particles.substring(i,aux);
+            parts = row.split(" ");
+            if(parts.length == 2) {
+                cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), true));
+            } else if(parts.length == 3) {
+                cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), true));
+            } else {
+                throw new Exception("Wrong coordinates");
+            }
+            i+=row.length()+1;
+            rowCount++;
+        }
     }
 }
