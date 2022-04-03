@@ -89,6 +89,10 @@ for scenario in scenarios:
         
 
         ax = plt.figure().add_subplot(projection='3d')
+        ax.set_xlabel('Rows')
+        ax.set_ylabel('Cols')
+        ax.set_zlabel('Depth')
+        plt.gca().invert_yaxis()
         ax.voxels(voxelarray, facecolors=plt.cm.viridis(colors))
 
     else:
@@ -106,12 +110,22 @@ for scenario in scenarios:
         cmap = colors.LinearSegmentedColormap.from_list('my_colormap', [(0, '#ffffff'),(0.0000000001, '#ff0000'), (0.6, '#ff9900'), (1, '#dec41b')])
 
         fig, ax = plt.subplots()
+        ax.set_xlabel('Rows')
+        ax.set_ylabel('Cols')
+        #ax.invert_xaxis()
+        #ax.invert_yaxis()
+        #plt.xticks([])#np.arange(-0.5, cells_height+1, 10.0))
         ax.imshow(data, cmap=cmap)
 
         # draw gridlines
         ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=0.5)
-        ax.set_xticks(np.arange(-.5, cells_width*side_length, side_length))
-        ax.set_yticks(np.arange(-.5, cells_height*side_length, side_length))
+        ax.set_xticks(np.arange(-.5, cells_height*side_length, side_length))
+        ax.set_yticks(np.arange(-.5, cells_width*side_length, side_length))
+        xtick_labels = [(str(x) if x % 3 == 0 else "") for x in range(cells_height+1)]
+        ytick_labels = [(str(y) if y % 3 == 0 else "") for y in range(cells_width+1)]
+        ax.set_xticklabels(xtick_labels)
+        ax.set_yticklabels(ytick_labels)
+        ax.invert_yaxis()
         
     plt.savefig("figures/"+str(counter)+".png")
     images.append(imageio.imread("figures/"+str(counter)+".png"))
