@@ -1,4 +1,3 @@
-from dis import dis
 from types import NoneType
 from matplotlib import pyplot as plt
 import numpy as np
@@ -53,7 +52,7 @@ counter = 0
 for scenario in scenarios:
     if is3d:        
         
-        x, y, z = np.indices((cells_width, cells_height, cells_depth))
+        x, y, z = np.indices((cells_height, cells_width, cells_depth))
 
         cubes = list()
         distances_to_center = list()
@@ -68,7 +67,8 @@ for scenario in scenarios:
             coordinates = [int(x) for x in cell.split(' ')]
             cube = (x >= coordinates[0]) & (x <= coordinates[0]+1) & (y >= coordinates[1]) & (y <= coordinates[1]+1) & (z >= coordinates[2]) & (z <= coordinates[2]+1)
             cubes.append(cube)
-            distances_to_center.append(np.sqrt(np.sum((coordinates[0] - cells_height/2)**2 + (coordinates[1] - cells_width/2)**2 + (coordinates[2] - cells_depth/2)**2)))
+            
+            distances_to_center.append(np.sqrt((coordinates[0] - cells_height/2)**2 + (coordinates[1] - cells_width/2)**2 + (coordinates[2] - cells_depth/2)**2))
             if first_time:
                 voxelarray = cube
                 first_time = False

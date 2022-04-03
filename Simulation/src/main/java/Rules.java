@@ -48,6 +48,29 @@ public class Rules {
                 aliveNeighbours++;
         return aliveNeighbours;
     }
+    private static int getNeumannAliveNeighbours3d(Cell cellToCheck, Grid3d grid3d) {
+        int aliveNeighbours = 0;
+        boolean[][][] grid = grid3d.getGridMatrix();
+        if(cellToCheck.getCol() > 0)
+            if(grid[cellToCheck.getRow()][cellToCheck.getCol()-1][cellToCheck.getDepth()])
+                aliveNeighbours++;
+        if(cellToCheck.getCol() < grid[0].length-1)
+            if(grid[cellToCheck.getRow()][cellToCheck.getCol()+1][cellToCheck.getDepth()])
+                aliveNeighbours++;
+        if(cellToCheck.getRow() > 0)
+            if(grid[cellToCheck.getRow()-1][cellToCheck.getCol()][cellToCheck.getDepth()])
+                aliveNeighbours++;
+        if(cellToCheck.getRow() < grid.length-1)
+            if(grid[cellToCheck.getRow()+1][cellToCheck.getCol()][cellToCheck.getDepth()])
+                aliveNeighbours++;
+        if(cellToCheck.getDepth() > 0)
+            if(grid[cellToCheck.getRow()][cellToCheck.getCol()][cellToCheck.getDepth()-1])
+                aliveNeighbours++;
+        if(cellToCheck.getDepth() < grid[0][0].length-1)
+            if(grid[cellToCheck.getRow()][cellToCheck.getCol()][cellToCheck.getDepth()+1])
+                aliveNeighbours++;
+        return aliveNeighbours;
+    }
 
     public static Rule2d lifeGame2d() {
         return ((cellToCheck, grid2d) -> {
@@ -120,7 +143,6 @@ public class Rules {
         return ((cellToCheck, grid3d) -> {
             int aliveNeighbours = getMooreAliveNeighbours3d(cellToCheck, grid3d);
 
-
             if(cellToCheck.isAlive()) {
                 if(aliveNeighbours == 8)
                     return null; //Permanece en su estado original
@@ -128,6 +150,28 @@ public class Rules {
             } else {
                 if(aliveNeighbours == 1)
                     return true;
+                return null; //Permanece en su estado original
+            }
+        });
+    }
+
+    public static Rule3d spacialMove3d() {
+        return ((cellToCheck, grid3d) -> {
+            int aliveNeighbours = getNeumannAliveNeighbours3d(cellToCheck, grid3d);
+
+            if(cellToCheck.isAlive()) {
+                if(aliveNeighbours >= 1)
+                    return null;
+                return false;
+            } else {
+                if(cellToCheck.getCol() < grid3d.getGridMatrix()[0].length/2) {
+                    if(aliveNeighbours >= 3)
+                        return true;
+                } else {
+                    if(aliveNeighbours >= 1)
+                        return true;
+                }
+
                 return null; //Permanece en su estado original
             }
         });
