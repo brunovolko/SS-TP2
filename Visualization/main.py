@@ -1,4 +1,5 @@
 from dis import dis
+from types import NoneType
 from matplotlib import pyplot as plt
 import numpy as np
 from matplotlib import colors
@@ -73,6 +74,8 @@ for scenario in scenarios:
                 first_time = False
             else:
                 voxelarray = voxelarray | cube
+        if type(voxelarray) == NoneType:
+            voxelarray = (x > 0) & (x < 0) & (y > 0) & (y < 0) & (z > 0) & (z < 0)
 
         
             
@@ -116,29 +119,6 @@ for scenario in scenarios:
     counter += 1
 
     
-
-imageio.mimsave('animation.gif', images)
-
+imageio.mimsave('animation.gif', images, duration=0.15)
 
 
-        
-
-'''
-
-fig, ax = plt.subplots()
-
-static_file.readline() #N
-L = float(static_file.readline())
-
-intervals = L/float(10) #Mismo que en java
-
-
-loc = plticker.MultipleLocator(base=intervals)
-ax.xaxis.set_major_locator(loc)
-ax.yaxis.set_major_locator(loc)
-plt.grid()
-ax.set_title('Click a point to see its neighbours')
-linebuilder = PointClickDetection(ax, static_file, dynamic_file, results_df)
-
-plt.show()
-'''
