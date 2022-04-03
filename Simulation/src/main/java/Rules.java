@@ -1,6 +1,6 @@
 public class Rules {
 
-    private static int getMooreAliveNeighbours(Cell cellToCheck, Grid2d grid2d) {
+    private static int getMooreAliveNeighbours2d(Cell cellToCheck, Grid2d grid2d) {
         int aliveNeighbours = 0;
         boolean[][] grid = grid2d.getGridMatrix();
         int startRow = cellToCheck.getRow() > 0 ? cellToCheck.getRow()-1 : cellToCheck.getRow();
@@ -14,7 +14,24 @@ public class Rules {
                     aliveNeighbours++;
         return aliveNeighbours;
     }
-    private static int getNeumannAliveNeighbours(Cell cellToCheck, Grid2d grid2d) {
+    private static int getMooreAliveNeighbours3d(Cell cellToCheck, Grid3d grid3d) {
+        int aliveNeighbours = 0;
+        boolean[][][] grid = grid3d.getGridMatrix();
+        int startRow = cellToCheck.getRow() > 0 ? cellToCheck.getRow()-1 : cellToCheck.getRow();
+        int finishRow = cellToCheck.getRow() < grid.length-1 ? cellToCheck.getRow()+1 : cellToCheck.getRow();
+        int startCol = cellToCheck.getCol() > 0 ? cellToCheck.getCol()-1 : cellToCheck.getCol();
+        int finishCol = cellToCheck.getCol() < grid[0].length-1 ? cellToCheck.getCol()+1 : cellToCheck.getCol();
+        int startDepth = cellToCheck.getDepth() > 0 ? cellToCheck.getDepth()-1 : cellToCheck.getDepth();
+        int finishDepth = cellToCheck.getDepth() < grid[0][0].length-1 ? cellToCheck.getDepth()+1 : cellToCheck.getDepth();
+
+        for(int row = startRow; row <= finishRow; row++)
+            for(int col = startCol; col <= finishCol; col++)
+                for(int depth = startDepth; depth <= finishDepth; depth++)
+                    if(!(row == cellToCheck.getRow() && col == cellToCheck.getCol() && depth == cellToCheck.getDepth()) && grid[row][col][depth])
+                        aliveNeighbours++;
+        return aliveNeighbours;
+    }
+    private static int getNeumannAliveNeighbours2d(Cell cellToCheck, Grid2d grid2d) {
         int aliveNeighbours = 0;
         boolean[][] grid = grid2d.getGridMatrix();
         if(cellToCheck.getCol() > 0)
@@ -34,7 +51,7 @@ public class Rules {
 
     public static Rule2d lifeGame2d() {
         return ((cellToCheck, grid2d) -> {
-            int aliveNeighbours = getMooreAliveNeighbours(cellToCheck, grid2d);
+            int aliveNeighbours = getMooreAliveNeighbours2d(cellToCheck, grid2d);
 
 
             if(cellToCheck.isAlive()) {
@@ -51,7 +68,7 @@ public class Rules {
 
     public static Rule2d nobodyAlone2d() {
         return ((cellToCheck, grid2d) -> {
-            int aliveNeighbours = getMooreAliveNeighbours(cellToCheck, grid2d);
+            int aliveNeighbours = getMooreAliveNeighbours2d(cellToCheck, grid2d);
 
             if(cellToCheck.isAlive()) {
                 if(aliveNeighbours >= 1)
@@ -67,7 +84,7 @@ public class Rules {
 
     public static Rule2d couples2d() {
         return ((cellToCheck, grid2d) -> {
-            int aliveNeighbours = getNeumannAliveNeighbours(cellToCheck, grid2d);
+            int aliveNeighbours = getNeumannAliveNeighbours2d(cellToCheck, grid2d);
 
 
             if(cellToCheck.isAlive()) {
@@ -84,13 +101,7 @@ public class Rules {
 
     public static Rule3d lifeGame3d() {
         return ((cellToCheck, grid3d) -> {
-            int aliveNeighbours = 0;
-            boolean[][][] grid = grid3d.getGridMatrix();
-            for(int row = cellToCheck.getRow()-1; row <= cellToCheck.getRow()+1 && row > 0 && row < grid.length-1; row++)
-                for(int col = cellToCheck.getCol()-1; col <= cellToCheck.getCol()+1 && col > 0 && col < grid[0].length-1; col++)
-                    for(int dep = cellToCheck.getDepth()-1; dep <= cellToCheck.getDepth()+1 && dep > 0 && dep < grid[0][0].length-1; dep++)
-                        if(!(row == cellToCheck.getRow() && col == cellToCheck.getCol()&& dep == cellToCheck.getDepth()) && grid[row][col][dep])
-                            aliveNeighbours++;
+            int aliveNeighbours = getMooreAliveNeighbours3d(cellToCheck, grid3d);
 
 
             if(cellToCheck.isAlive()) {
@@ -99,6 +110,23 @@ public class Rules {
                 return false;
             } else {
                 if(aliveNeighbours == 3)
+                    return true;
+                return null; //Permanece en su estado original
+            }
+        });
+    }
+
+    public static Rule3d fixedNumber3d() {
+        return ((cellToCheck, grid3d) -> {
+            int aliveNeighbours = getMooreAliveNeighbours3d(cellToCheck, grid3d);
+
+
+            if(cellToCheck.isAlive()) {
+                if(aliveNeighbours == 8)
+                    return null; //Permanece en su estado original
+                return false;
+            } else {
+                if(aliveNeighbours == 1)
                     return true;
                 return null; //Permanece en su estado original
             }
