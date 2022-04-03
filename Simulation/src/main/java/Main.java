@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.exit;
@@ -17,7 +18,7 @@ public class Main {
             file.delete();
         Config config;
         try {
-            config = new Config("static_input.txt", "dynamic_input.txt");
+            config = new Config("static_input.txt", "dynamic_input.txt",0.3);
         } catch (Exception exception) {
             System.out.println("Wrong file format. " + exception.getMessage());
             return;
@@ -26,6 +27,8 @@ public class Main {
 
 
         int i = 0;
+        List<Integer> accumAliveNodes = new ArrayList<>();
+        List<Double> accumMaxDistances = new ArrayList<>();
         //TODO en realidad creo q no hay q crear n archivos,
         // nomas calclular promedio de vivos y el radio para cada t
         while(i<QTY_OF_SIMULATIONS) {
@@ -39,7 +42,9 @@ public class Main {
             File dynamicOutputFile = new File("results/dynamic_output" + i + ".txt");
             try (PrintWriter pw = new PrintWriter(dynamicOutputFile)) {
                 int t = 0;
+
                 saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
+
                 t++;
                 while (grid.canMove()) {
                     grid.move();
@@ -53,7 +58,7 @@ public class Main {
                 e.printStackTrace();
                 break;
             }
-            config.shuffleParticles();
+            config.shuffleParticles(0.3);
             i++;
         }
 

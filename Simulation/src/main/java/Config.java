@@ -16,7 +16,7 @@ public class Config {
     List<Cell> cells = new ArrayList<>();
 
 
-    public Config (String staticInputFilename, String dynamicInputFilename) throws Exception {
+    public Config (String staticInputFilename, String dynamicInputFilename,double p) throws Exception {
         File staticInputFile = new File(staticInputFilename);
         File dynamicInputFile = new File(dynamicInputFilename);
         Scanner staticReader = new Scanner(staticInputFile);
@@ -57,7 +57,7 @@ public class Config {
             }
         }
 
-      shuffleParticles();
+      shuffleParticles(p);
 
 
 
@@ -92,9 +92,9 @@ public class Config {
         return cells;
     }
 
-    public void shuffleParticles() throws Exception {
+    public void shuffleParticles(double p) throws Exception {
 
-        String particles = ParticlesGenerator.generate(is3d,W);
+        String particles = ParticlesGenerator.generate(is3d,W,p);
         String header = particles.substring(0,particles.indexOf('\n')+1);
         if(!header.equals("t0\n"))
             throw new Exception("t0 not found");

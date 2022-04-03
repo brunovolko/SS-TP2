@@ -8,7 +8,7 @@ import java.util.*;
 import static java.lang.System.exit;
 
 public class ParticlesGenerator {
-    public static String generate(boolean is3d,int n) {
+    public static String generate(boolean is3d,int n, double p) {
 
         /*
         int n= 0;
@@ -29,7 +29,7 @@ public class ParticlesGenerator {
 
          */
 
-        double percentage = 0.3;
+        double percentage = p;
 
 
         int newLimit = (int) Math.floor(n / 2.0);
