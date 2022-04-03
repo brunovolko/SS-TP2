@@ -8,3 +8,7 @@ Visualization/figures/
 .idea/
 
 *.iml
+
+Simulation/*.txt
+Visualization/*.txt
+Visualization/*.gif

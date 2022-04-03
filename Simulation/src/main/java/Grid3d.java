@@ -11,7 +11,6 @@ public class Grid3d implements Grid {
         grid = new boolean[cantCellsX][cantCellsY][cantCellsZ];
         for (Cell cell : cells) {
             grid[cell.getRow()][cell.getCol()][cell.getDepth()] = true;
-            System.out.println(cell.getRow() + " " + cell.getCol() + " " + cell.getDepth());
         }
     }
 

@@ -48,15 +48,15 @@ public class Grid2d implements Grid {
     public void move() {
         List<Cell> deadToAlive = new ArrayList<>();
         List<Cell> aliveToDead = new ArrayList<>();
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[i].length; j++) {
-                Cell cell = new Cell(i,j, grid[i][j]);
+        for(int row = 0; row < grid.length; row++) {
+            for(int col = 0; col < grid[0].length; col++) {
+                Cell cell = new Cell(row,col, grid[row][col]);
                 Boolean nextState = rule.checkLife(cell,this);
-                if(nextState == null)
+                if(nextState == null) {
                     continue;
-                else if(nextState)
+                }else if(nextState) {
                     deadToAlive.add(cell);
-                else
+                }else
                     aliveToDead.add(cell);
             }
         }
