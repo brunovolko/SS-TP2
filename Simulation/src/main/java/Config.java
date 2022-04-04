@@ -13,10 +13,13 @@ public class Config {
     private int D; // D es la profundidad del eje Z (De existir)
     private double L; //Lado de cada cuadradito/cubito
     private double p;
+    private Rule2d rule2d;
+    private Rule3d rule3d;
+
     List<Cell> cells = new ArrayList<>();
 
 
-    public Config (String staticInputFilename, String dynamicInputFilename,double p, boolean useDynamicInput) throws Exception {
+    public Config (String staticInputFilename, String dynamicInputFilename,Double p, boolean useDynamicInput) throws Exception {
         File staticInputFile = new File(staticInputFilename);
         File dynamicInputFile = new File(dynamicInputFilename);
         Scanner staticReader = new Scanner(staticInputFile);
@@ -30,6 +33,48 @@ public class Config {
 
         else
             throw new Exception("is3d not found");
+
+        if(staticReader.hasNextLine()){
+            if(!is3d){
+                switch (staticReader.nextLine()){
+                    case "lifeGame2d":
+                        rule2d = Rules.lifeGame2d();
+                        break;
+                    case "couples2d":
+                        rule2d = Rules.couples2d();
+                        break;
+                    case "nobodyAlone2d":
+                        rule2d = Rules.nobodyAlone2d();
+                        break;
+                    default:
+                        throw new Exception("invalid rule 2d");
+                }
+            }else
+                switch (staticReader.nextLine()){
+                    case "lifeGame3d":
+                        rule3d = Rules.lifeGame3d();
+                        break;
+                    case "spatialMove3d":
+                        rule3d = Rules.spatialMove3d();
+                        break;
+                    case "fixedNumber3d":
+                        rule3d = Rules.fixedNumber3d();
+                        break;
+                    default:
+                        throw new Exception("invalid rule 3d");
+
+                }
+
+        }else
+            throw new Exception("Rule not found");
+
+
+        if(staticReader.hasNextLine())
+            p = Double.parseDouble(staticReader.nextLine());
+        else
+            throw new Exception("p not found");
+
+
 
         if(staticReader.hasNextLine())
             W = Integer.parseInt(staticReader.nextLine());
@@ -103,6 +148,19 @@ public class Config {
 
     public double getL() {
         return L;
+    }
+
+
+    public double getP() {
+        return p;
+    }
+
+    public Rule2d getRule2d() {
+        return rule2d;
+    }
+
+    public Rule3d getRule3d() {
+        return rule3d;
     }
 
     public List<Cell> getCells() {

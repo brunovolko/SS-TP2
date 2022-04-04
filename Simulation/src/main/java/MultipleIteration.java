@@ -37,9 +37,9 @@ public class MultipleIteration {
 
         while(qtyOfSims<QTY_OF_SIMULATIONS) {
             if(config.is3d())
-                grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), Rules.lifeGame3d());
+                grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), config.getRule3d());
             else
-                grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells(), Rules.lifeGame2d());
+                grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells(), config.getRule2d());
 
             qtyOfIterations = 0;
 

@@ -9,6 +9,11 @@ import static java.lang.System.exit;
 
 public class ParticlesGenerator {
     public static void main(String[] args) {
+        if(args.length<1){
+            System.err.println("Program arg needed:percentage of occupation");
+            exit(1);
+        }
+        double p = Double.parseDouble(args[0]);
         int n= 0;
         boolean is3d=true;
 
@@ -25,7 +30,7 @@ public class ParticlesGenerator {
         }
 
 
-        double percentage = 0.3;
+        double percentage = p;
 
 
         int newLimit = (int) Math.floor(n / 2.0);
