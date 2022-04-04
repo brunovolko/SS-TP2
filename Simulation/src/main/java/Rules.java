@@ -155,7 +155,7 @@ public class Rules {
         });
     }
 
-    public static Rule3d spacialMove3d() {
+    public static Rule3d spatialMove3d() {
         return ((cellToCheck, grid3d) -> {
             int aliveNeighbours = getNeumannAliveNeighbours3d(cellToCheck, grid3d);
 
