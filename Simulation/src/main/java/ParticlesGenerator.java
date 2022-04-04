@@ -13,13 +13,14 @@ public class ParticlesGenerator {
             System.err.println("Program arg needed:percentage of occupation");
             exit(1);
         }
-        double p = Double.parseDouble(args[0]);
         int n= 0;
         boolean is3d=true;
+        Double p = 0.5;
 
         try{
             n = Integer.parseInt(args[0]);
             int aux = Integer.parseInt(args[1]);
+            p = Double.parseDouble(args[2]);
             if(aux==0)
                 is3d = false;
 

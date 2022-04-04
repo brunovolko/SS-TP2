@@ -69,12 +69,6 @@ public class Config {
             throw new Exception("Rule not found");
 
 
-//        if(staticReader.hasNextLine())
-//            p = Double.parseDouble(staticReader.nextLine());
-//        else
-//            throw new Exception("p not found");
-
-
 
         if(staticReader.hasNextLine())
             W = Integer.parseInt(staticReader.nextLine());
@@ -95,14 +89,7 @@ public class Config {
 //            throw new Exception("D or L not found");
             throw new Exception("D not found");
         }
-//        if (is3d) {
-//            if(staticReader.hasNextLine()) {
-//                L = Double.parseDouble(staticReader.nextLine());
-//            } else {
-//                throw new Exception("L not found");
-//            }
-//        }
-//        this.p=p;
+
         if(useDynamicInput){
             if(dynamicReader.hasNextLine()) {
                 dynamicReader.nextLine(); // t0
