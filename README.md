@@ -21,7 +21,6 @@ RULESET(lifeGame2d,couples2d,nobodyAlone2d,lifeGame3d,spatialMove3d,fixedNumber3
 CANT_CELDAS_ANCHO
 CANT_CELDAS_ALTO
 CANT_CELDAS_PROFUNDIDAD (Solo si es 3d)
-LADO_CELDA
 ```
 
 ### dynamic_input.txt

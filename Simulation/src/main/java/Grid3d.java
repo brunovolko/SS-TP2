@@ -3,10 +3,10 @@ import java.util.List;
 
 public class Grid3d implements Grid {
     boolean[][][] grid;
-    double sideLength;
+//    double sideLength;
     Rule3d rule;
-    public Grid3d(int cantCellsX, int cantCellsY, int cantCellsZ, double sideLength, List<Cell> cells, Rule3d rule) {
-        this.sideLength = sideLength;
+    public Grid3d(int cantCellsX, int cantCellsY, int cantCellsZ, List<Cell> cells, Rule3d rule) {
+//        this.sideLength = sideLength;
         this.rule = rule;
         grid = new boolean[cantCellsX][cantCellsY][cantCellsZ];
         for (Cell cell : cells) {

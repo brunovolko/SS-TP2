@@ -3,10 +3,10 @@ import java.util.List;
 
 public class Grid2d implements Grid {
     boolean[][] grid;
-    double sideLength;
+//    double sideLength;
     Rule2d rule;
-    public Grid2d(int cantCellsX, int cantCellsY, double sideLength, List<Cell> cells, Rule2d rule) {
-        this.sideLength = sideLength;
+    public Grid2d(int cantCellsX, int cantCellsY, List<Cell> cells, Rule2d rule) {
+//        this.sideLength = sideLength;
         this.rule=rule;
         grid = new boolean[cantCellsX][cantCellsY];
         for (Cell cell : cells) {

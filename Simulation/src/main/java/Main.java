@@ -26,9 +26,9 @@ public class Main {
 
 
         if(config.is3d())
-            grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), config.getRule3d());
+            grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getCells(), config.getRule3d());
         else
-            grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells(), config.getRule2d());
+            grid = new Grid2d(config.getW(), config.getH(), config.getCells(), config.getRule2d());
 
         int qtyOfIterations =0;
         File dynamicOutputFile = new File("dynamic_output" + ".txt");

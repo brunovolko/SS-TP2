@@ -11,7 +11,7 @@ public class Config {
     private int W; // W es largo del eje X
     private int H; // H es largo del eje Y
     private int D; // D es la profundidad del eje Z (De existir)
-    private double L; //Lado de cada cuadradito/cubito
+//    private double L; //Lado de cada cuadradito/cubito
 //    private double p;
     private Rule2d rule2d;
     private Rule3d rule3d;
@@ -89,18 +89,19 @@ public class Config {
         if(staticReader.hasNextLine()){
             if(is3d)
                 D = Integer.parseInt(staticReader.nextLine());
-            else
-                L = Double.parseDouble(staticReader.nextLine());
+//            else
+//                L = Double.parseDouble(staticReader.nextLine());
         } else {
-            throw new Exception("D or L not found");
+//            throw new Exception("D or L not found");
+            throw new Exception("D not found");
         }
-        if (is3d) {
-            if(staticReader.hasNextLine()) {
-                L = Double.parseDouble(staticReader.nextLine());
-            } else {
-                throw new Exception("L not found");
-            }
-        }
+//        if (is3d) {
+//            if(staticReader.hasNextLine()) {
+//                L = Double.parseDouble(staticReader.nextLine());
+//            } else {
+//                throw new Exception("L not found");
+//            }
+//        }
 //        this.p=p;
         if(useDynamicInput){
             if(dynamicReader.hasNextLine()) {
@@ -146,9 +147,9 @@ public class Config {
         return D;
     }
 
-    public double getL() {
-        return L;
-    }
+//    public double getL() {
+//        return L;
+//    }
 
 
 //    public double getP() {
