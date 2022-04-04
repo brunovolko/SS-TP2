@@ -15,7 +15,7 @@ cells_width = int(static_file.readline())
 cells_height = int(static_file.readline())
 if is3d:
     cells_depth = int(static_file.readline())
-side_length = float(static_file.readline())
+side_length = 1.0
 
 
 scenarios = list()
