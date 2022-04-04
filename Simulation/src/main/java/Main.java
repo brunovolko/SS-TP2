@@ -17,7 +17,7 @@ public class Main {
         double p = Double.parseDouble(args[0]);
         Config config;
         try {
-            config = new Config("static_input.txt", "dynamic_input.txt",p);
+            config = new Config("static_input.txt", "dynamic_input.txt",p,true);
         } catch (Exception exception) {
             System.out.println("Wrong file format. " + exception.getMessage());
             return;
@@ -25,7 +25,6 @@ public class Main {
         Grid grid;
 
 
-        long start = System.currentTimeMillis();
         if(config.is3d())
             grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), Rules.lifeGame3d());
         else
@@ -49,7 +48,6 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        config.shuffleParticles();
 
 
     }

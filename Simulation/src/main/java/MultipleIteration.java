@@ -24,7 +24,7 @@ public class MultipleIteration {
             file.delete();
         Config config;
         try {
-            config = new Config("static_input.txt", "dynamic_input.txt",p);
+            config = new Config("static_input.txt", "dynamic_input.txt",p,false);
         } catch (Exception exception) {
             System.out.println("Wrong file format. " + exception.getMessage());
             return;

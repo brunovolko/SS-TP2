@@ -32,7 +32,7 @@ public class ParticlesGenerator {
         double percentage = p;
 
 
-        int newLimit = (int) Math.floor(n / 2.0);
+        int newLimit = (int) Math.floor(n / 3.0);
         int qtyOfParticlesToGenerate = (int) Math.floor(newLimit * newLimit * percentage);
 
         int min = (n- newLimit)/2;

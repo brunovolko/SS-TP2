@@ -16,7 +16,7 @@ public class Config {
     List<Cell> cells = new ArrayList<>();
 
 
-    public Config (String staticInputFilename, String dynamicInputFilename,double p) throws Exception {
+    public Config (String staticInputFilename, String dynamicInputFilename,double p, boolean useDynamicInput) throws Exception {
         File staticInputFile = new File(staticInputFilename);
         File dynamicInputFile = new File(dynamicInputFilename);
         Scanner staticReader = new Scanner(staticInputFile);
@@ -57,11 +57,28 @@ public class Config {
             }
         }
         this.p=p;
-        shuffleParticles();
+        if(useDynamicInput){
+            if(dynamicReader.hasNextLine()) {
+                dynamicReader.nextLine(); // t0
+            } else {
+                throw new Exception("t0 not found");
+            }
 
-
-
-
+            String row;
+            String[] parts;
+            while(dynamicReader.hasNextLine()) {
+                row = dynamicReader.nextLine();
+                parts = row.split(" ");
+                if(parts.length == 2) {
+                    cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), true));
+                } else if(parts.length == 3) {
+                    cells.add(new Cell(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), true));
+                } else {
+                    throw new Exception("Wrong coordinates");
+                }
+            }
+        }else
+            shuffleParticles();
 
         staticReader.close();
         dynamicReader.close();
