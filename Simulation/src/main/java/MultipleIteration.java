@@ -19,9 +19,7 @@ public class MultipleIteration {
         }
         double p = Double.parseDouble(args[0]);
 
-        File f = new File("results");
-        for(File file: f.listFiles())
-            file.delete();
+
         Config config;
         try {
             config = new Config("static_input.txt", "dynamic_input.txt",p,false);
@@ -78,7 +76,7 @@ public class MultipleIteration {
         System.out.println(accumAliveNodes.size()==accumMaxDistances.size());
         try (PrintWriter pw = new PrintWriter(dynamicOutputFile)) {
 
-            pw.write("alives\tdesviation\tmax_distance\tdesviation\n");
+            pw.write("alive\tdeviation\tmax_distance\tdeviation\n");
 
             for (int t = 0; t < accumAliveNodes.size(); t++) {
                 int nodesAvg = 0;
@@ -92,14 +90,15 @@ public class MultipleIteration {
                 for(int i = 0; i < accumAliveNodes.get(t).size(); i++){
                     desv1+= (accumAliveNodes.get(t).get(i) - nodesAvg) * (accumAliveNodes.get(t).get(i) - nodesAvg);
                 }
-                desv1 /= QTY_OF_SIMULATIONS;
+                desv1 = Math.sqrt(desv1/QTY_OF_SIMULATIONS);
 
                 double distancesAvg = 0.0;
-                for(int i = 0; i < accumAliveNodes.get(t).size(); i++){
-                    desv1+= Math.pow(accumAliveNodes.get(t).get(i) - nodesAvg, 2);
+                for(int i = 0; i < accumMaxDistances.get(t).size(); i++){
+                    distancesAvg += accumMaxDistances.get(t).get(i);
 
                 }
-                desv1 = Math.sqrt(desv1/QTY_OF_SIMULATIONS);
+                distancesAvg /= QTY_OF_SIMULATIONS;
+
 
                 double desv2 =0.0;
 
