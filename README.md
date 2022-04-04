@@ -51,4 +51,4 @@ pip install -r requirements.txt
 
 ### Resultado
 
-En la carpeta figures se encontrarán los fotogramas individuales. También en la carpeta Visualization se creata el archivo "animaiton.gif" con la animación.
+En la carpeta figures se encontrarán los fotogramas individuales. También en la carpeta Visualization se creará el archivo "animaiton.gif" con la animación.
