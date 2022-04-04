@@ -17,6 +17,7 @@ Contenido:
 
 ```text
 ES_3D(1 o 0)
+RULESET(lifeGame2d,couples2d,nobodyAlone2d,lifeGame3d,spatialMove3d,fixedNumber3d)
 CANT_CELDAS_ANCHO
 CANT_CELDAS_ALTO
 CANT_CELDAS_PROFUNDIDAD (Solo si es 3d)

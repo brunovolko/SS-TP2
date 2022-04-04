@@ -14,10 +14,10 @@ public class Main {
             System.err.println("Program arg needed:percentage of occupation");
             exit(1);
         }
-        double p = Double.parseDouble(args[0]);
+//        double p = Double.parseDouble(args[0]);
         Config config;
         try {
-            config = new Config("static_input.txt", "dynamic_input.txt",p,true);
+            config = new Config("static_input.txt", "dynamic_input.txt",true);
         } catch (Exception exception) {
             System.out.println("Wrong file format. " + exception.getMessage());
             return;
