@@ -7,7 +7,7 @@ import java.util.List;
 import static java.lang.System.exit;
 
 public class Main {
-    private static final long MAX_DURATION =  (300);
+    private static final long MAX_DURATION =  (350);
     public static void main(String[] args) throws Exception {
 
 
@@ -27,7 +27,7 @@ public class Main {
         else
             grid = new Grid2d(config.getW(), config.getH(), config.getL(), config.getCells(), Rules.lifeGame2d());
 
-
+        int qtyOfIterations =0;
         File dynamicOutputFile = new File("dynamic_output" + ".txt");
         try (PrintWriter pw = new PrintWriter(dynamicOutputFile)) {
             int t = 0;
@@ -35,12 +35,11 @@ public class Main {
             saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
 
             t++;
-            while (grid.canMove()) {
+            while (grid.canMove() && qtyOfIterations < MAX_DURATION) {
                 grid.move();
                 saveSnapshotToFile(grid.getCellsAlive(), t, config.is3d(), pw);
+                qtyOfIterations++;
                 t++;
-                if (System.currentTimeMillis() - start > MAX_DURATION)
-                    break;
             }
 
         } catch (FileNotFoundException e) {

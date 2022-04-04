@@ -9,8 +9,8 @@ import java.util.Map;
 import static java.lang.System.exit;
 
 public class MultipleIteration {
-    private static final int QTY_OF_SIMULATIONS = 10;
-    private static final long MAX_DURATION =  (300);
+    private static final int QTY_OF_SIMULATIONS = 9;
+    private static final long MAX_DURATION =  (350);
     public static void main(String[] args) throws Exception {
 
 
@@ -28,12 +28,11 @@ public class MultipleIteration {
 
 
         int qtyOfSims = 0;
+        int qtyOfIterations = 0;
         Map<Integer,List<Integer>> accumAliveNodes = new HashMap<>();
         Map<Integer,List<Double>> accumMaxDistances = new HashMap<>();
-        //TODO en realidad creo q no hay q crear n archivos,
-        // nomas calclular promedio de vivos y el radio para cada t
+
         while(qtyOfSims<QTY_OF_SIMULATIONS) {
-            long start = System.currentTimeMillis();
             if(config.is3d())
                 grid = new Grid3d(config.getW(), config.getH(), config.getD(), config.getL(), config.getCells(), Rules.lifeGame3d());
             else
@@ -49,7 +48,7 @@ public class MultipleIteration {
 
 
 
-                while (grid.canMove()) {
+                while (grid.canMove() && qtyOfIterations < MAX_DURATION) {
                     grid.move();
                     t++;
                     if(!accumMaxDistances.containsKey(t))
@@ -61,8 +60,7 @@ public class MultipleIteration {
                     accumAliveNodes.get(t).add(grid.getCellsAlive().size());
                     accumMaxDistances.get(t).add(grid.getMaxDistFromCenter());
 
-                    if (System.currentTimeMillis() - start > MAX_DURATION)
-                        break;
+                    qtyOfIterations++;
                 }
 
 
