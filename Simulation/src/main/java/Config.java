@@ -110,6 +110,7 @@ public class Config {
     }
 
     public void shuffleParticles() throws Exception {
+        cells.clear();
 
         String particles = ParticlesGenerator.generate(is3d,W,p);
         String header = particles.substring(0,particles.indexOf('\n')+1);
