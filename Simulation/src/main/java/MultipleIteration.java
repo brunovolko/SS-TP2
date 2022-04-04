@@ -13,13 +13,18 @@ public class MultipleIteration {
     private static final long MAX_DURATION =  (350);
     public static void main(String[] args) throws Exception {
 
+        if(args.length<1){
+            System.err.println("Program arg needed:percentage of occupation");
+            exit(1);
+        }
+        double p = Double.parseDouble(args[0]);
 
         File f = new File("results");
         for(File file: f.listFiles())
             file.delete();
         Config config;
         try {
-            config = new Config("static_input.txt", "dynamic_input.txt",0.3);
+            config = new Config("static_input.txt", "dynamic_input.txt",p);
         } catch (Exception exception) {
             System.out.println("Wrong file format. " + exception.getMessage());
             return;
